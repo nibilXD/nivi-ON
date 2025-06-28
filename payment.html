@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nivi-ON Payment - Wisitrix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1f2937;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e7eb;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .progress-bar {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 2rem;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+            width: 25%;
+        }
+
+        /* Main Content */
+        .main {
+            padding-top: 100px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section {
+            display: none;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: #111827;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #ef4444;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        /* Button Styles */
+        .btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Plan Cards */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .plan-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan-card.selected {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        }
+
+        .plan-card.hidden {
+            display: none;
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #111827;
+        }
+
+        .plan-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            color: #4b5563;
+        }
+
+        .plan-features li svg {
+            margin-right: 0.75rem;
+            color: #10b981;
+        }
+
+        /* Payment Options */
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-option {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .payment-option:hover:not(.locked) {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .payment-option.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .payment-option.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+            position: relative;
+        }
+
+        .payment-option.locked::after {
+            content: 'LOCKED';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 0.7rem;
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 0.75rem;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-name {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        /* Pay Now Section */
+        .pay-now-content {
+            text-align: center;
+        }
+
+        .amount-display {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 2px solid #3b82f6;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .amount-label {
+            color: #6b7280;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .amount-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #3b82f6;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .qr-code canvas {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .timer {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .timer-text {
+            color: #92400e;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .region-notice {
+            background: #fef2f2;
+            border: 2px solid #fca5a5;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #991b1b;
+            font-weight: 500;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .progress-bar {
+                display: none;
+            }
+        }
+
+        /* Success/Error States */
+        .success-message {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            color: #065f46;
+            margin-bottom: 2rem;
+        }
+
+        .error-message-box {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            color: #991b1b;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <img src="logo.png" alt="nivi-ON Logo" class="logo">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Step 1: User Details -->
+            <section class="section active" id="userDetailsSection">
+                <h1 class="section-title">Welcome to nivi-ON</h1>
+                <p class="section-subtitle">Enter your details to get started with AI video generation</p>
+                
+                <form id="userDetailsForm">
+                    <div class="form-group">
+                        <label class="form-label" for="userName">Full Name</label>
+                        <input type="text" id="userName" class="form-input" placeholder="Enter your full name" required>
+                        <div class="error-message" id="nameError">Please enter a valid name</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="userEmail">Email Address</label>
+                        <input type="email" id="userEmail" class="form-input" placeholder="Enter your email address" required>
+                        <div class="error-message" id="emailError">Please enter a valid email address</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" id="continueBtn" disabled>Continue</button>
+                </form>
+            </section>
+
+            <!-- Step 2: Plan Selection -->
+            <section class="section" id="planSelectionSection">
+                <h1 class="section-title">Choose Your Plan</h1>
+                <p class="section-subtitle">Select the perfect plan for your video generation needs</p>
+                
+                <div class="plans-grid" id="plansGrid">
+                    <div class="plan-card" data-plan="monthly">
+                        <div class="plan-badge">Most Popular</div>
+                        <h3 class="plan-name">Pro Monthly</h3>
+                        <div class="plan-price">₹8,499</div>
+                        <ul class="plan-features">
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                Up to 4K resolution
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                Up to 5 minutes duration
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                No limits
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                API access
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="plan-card" data-plan="weekly">
+                        <h3 class="plan-name">Pro Weekly</h3>
+                        <div class="plan-price">₹1,950</div>
+                        <ul class="plan-features">
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                Up to 4K resolution
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                Up to 5 minutes duration
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                No limits
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                API access
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="plan-card" data-plan="free">
+                        <h3 class="plan-name">Free Trial</h3>
+                        <div class="plan-price">₹0</div>
+                        <ul class="plan-features">
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                Up to 1080p resolution
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                Under 1 minute duration
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                3 videos per day
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM4 10a6 6 0 1012 0A6 6 0 004 10z"/>
+                                </svg>
+                                No API access
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="selectPlanBtn" disabled>Select Plan</button>
+            </section>
+
+            <!-- Step 3: Payment Gateway -->
+            <section class="section" id="paymentGatewaySection">
+                <h1 class="section-title">Payment Method</h1>
+                <p class="section-subtitle">Choose your preferred payment method</p>
+                
+                <div class="region-notice">
+                    Only UPI is available for your region
+                </div>
+                
+                <div class="payment-options">
+                    <div class="payment-option locked" data-payment="card">
+                        <div class="payment-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                <line x1="1" y1="10" x2="23" y2="10"/>
+                            </svg>
+                        </div>
+                        <div class="payment-name">Card</div>
+                    </div>
+                    
+                    <div class="payment-option locked" data-payment="netbanking">
+                        <div class="payment-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9,22 9,12 15,12 15,22"/>
+                            </svg>
+                        </div>
+                        <div class="payment-name">Net Banking</div>
+                    </div>
+                    
+                    <div class="payment-option" data-payment="upi">
+                        <div class="payment-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                                <line x1="12" y1="18" x2="12.01" y2="18"/>
+                            </svg>
+                        </div>
+                        <div class="payment-name">UPI</div>
+                    </div>
+                    
+                    <div class="payment-option locked" data-payment="wallet">
+                        <div class="payment-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 7H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                                <path d="M3 10h18"/>
+                                <path d="M7 15h1"/>
+                                <path d="M11 15h1"/>
+                            </svg>
+                        </div>
+                        <div class="payment-name">Wallet</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="proceedPaymentBtn" disabled>Proceed to Payment</button>
+            </section>
+
+            <!-- Step 4: Pay Now -->
+            <section class="section" id="payNowSection">
+                <h1 class="section-title">Complete Payment</h1>
+                <p class="section-subtitle">Scan QR code or click Pay Now to complete your purchase</p>
+                
+                <div class="pay-now-content">
+                    <div class="amount-display">
+                        <div class="amount-label">Amount to Pay</div>
+                        <div class="amount-value" id="paymentAmount">₹8,499</div>
+                    </div>
+                    
+                    <div class="timer">
+                        <div class="timer-text">Time remaining: <span id="timerDisplay">05:00</span></div>
+                    </div>
+                    
+                    <button class="btn btn-success" id="payNowBtn" style="margin-bottom: 2rem;">Pay Now</button>
+                    
+                    <div class="qr-code" id="qrCode">
+                        <!-- QR code will be generated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Payment Failed -->
+            <section class="section" id="paymentFailedSection">
+                <div class="error-message-box">
+                    <h2>Payment Failed</h2>
+                    <p>Your payment session has expired. Please try again.</p>
+                </div>
+                <button class="btn btn-primary" id="retryPaymentBtn">Try Again</button>
+            </section>
+        </div>
+    </main>
+
+    <!-- QR Code Library with multiple fallbacks -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+
+<script>
+    // Manual QR Code generation function as ultimate fallback
+    function generateManualQRCode(text, size = 180) {
+        const qrCodeElement = document.getElementById('qrCode');
+        
+        // Use Google Charts API as fallback
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}`;
+        
+        qrCodeElement.innerHTML = `
+            <img src="${qrUrl}" 
+                 alt="QR Code" 
+                 style="width: ${size}px; height: ${size}px; border-radius: 8px;"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div style="display: none; width: ${size}px; height: ${size}px; background: white; border: 2px solid #000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; font-size: 12px; line-height: 1.4; word-break: break-all;">
+                <div style="font-weight: bold; margin-bottom: 10px;">UPI Payment</div>
+                <div style="font-size: 10px; color: #666;">${text}</div>
+                <div style="margin-top: 10px; font-size: 10px; color: #999;">
+                    Use Pay Now button above
+                </div>
+            </div>
+        `;
+    }
+
+    // Global variables
+    let selectedPlan = null;
+    let selectedPayment = null;
+    let paymentTimer = null;
+    let timeRemaining = 300; // 5 minutes in seconds
+
+    // DOM elements
+    const sections = {
+        userDetails: document.getElementById('userDetailsSection'),
+        planSelection: document.getElementById('planSelectionSection'),
+        paymentGateway: document.getElementById('paymentGatewaySection'),
+        payNow: document.getElementById('payNowSection'),
+        paymentFailed: document.getElementById('paymentFailedSection')
+    };
+
+    const progressFill = document.getElementById('progressFill');
+    const userDetailsForm = document.getElementById('userDetailsForm');
+    const continueBtn = document.getElementById('continueBtn');
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        setupEventListeners();
+        validateUserForm();
+        
+        // Test QR Code libraries after a short delay
+        setTimeout(() => {
+            console.log('QRCode library available:', typeof QRCode !== 'undefined');
+            console.log('qrcode-generator available:', typeof qrcode !== 'undefined');
+        }, 1000);
+    });
+
+    // Setup event listeners
+    function setupEventListeners() {
+        // User details form validation
+        userName.addEventListener('input', validateUserForm);
+        userEmail.addEventListener('input', validateUserForm);
+        userDetailsForm.addEventListener('submit', handleUserDetailsSubmit);
+
+        // Plan selection
+        document.querySelectorAll('.plan-card').forEach(card => {
+            card.addEventListener('click', handlePlanSelection);
+        });
+        document.getElementById('selectPlanBtn').addEventListener('click', handlePlanConfirm);
+
+        // Payment method selection
+        document.querySelectorAll('.payment-option:not(.locked)').forEach(option => {
+            option.addEventListener('click', handlePaymentSelection);
+        });
+        document.getElementById('proceedPaymentBtn').addEventListener('click', handlePaymentProceed);
+
+        // Pay now
+        document.getElementById('payNowBtn').addEventListener('click', handlePayNow);
+
+        // Retry payment
+        document.getElementById('retryPaymentBtn').addEventListener('click', handleRetryPayment);
+    }
+
+    // Validate user form
+    function validateUserForm() {
+        const name = userName.value.trim();
+        const email = userEmail.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        const isNameValid = name.length >= 2;
+        const isEmailValid = emailRegex.test(email);
+
+        continueBtn.disabled = !(isNameValid && isEmailValid);
+
+        // Show/hide error messages
+        toggleError('nameError', !isNameValid && name.length > 0);
+        toggleError('emailError', !isEmailValid && email.length > 0);
+    }
+
+    // Toggle error message
+    function toggleError(errorId, show) {
+        const errorElement = document.getElementById(errorId);
+        errorElement.style.display = show ? 'block' : 'none';
+    }
+
+    // Handle user details submit
+    function handleUserDetailsSubmit(e) {
+        e.preventDefault();
+        if (!continueBtn.disabled) {
+            showSection('planSelection');
+            updateProgress(50);
+        }
+    }
+
+    // Handle plan selection
+    function handlePlanSelection(e) {
+        const card = e.currentTarget;
+        const plan = card.dataset.plan;
+
+        // Remove previous selection
+        document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+        
+        // Add selection to clicked card
+        card.classList.add('selected');
+        selectedPlan = plan;
+
+        // Enable select button
+        document.getElementById('selectPlanBtn').disabled = false;
+    }
+
+    // Handle plan confirmation
+    function handlePlanConfirm() {
+        if (selectedPlan === 'free') {
+            // Redirect to nivi.html for free trial
+            window.location.href = 'nivi.html';
+            return;
+        }
+
+        // Hide non-selected plans
+        document.querySelectorAll('.plan-card').forEach(card => {
+            if (card.dataset.plan !== selectedPlan) {
+                card.classList.add('hidden');
+            }
+        });
+
+        showSection('paymentGateway');
+        updateProgress(75);
+    }
+
+    // Handle payment method selection
+    function handlePaymentSelection(e) {
+        const option = e.currentTarget;
+        const payment = option.dataset.payment;
+
+        // Remove previous selection
+        document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+        
+        // Add selection to clicked option
+        option.classList.add('selected');
+        selectedPayment = payment;
+
+        // Enable proceed button
+        document.getElementById('proceedPaymentBtn').disabled = false;
+    }
+
+    // Handle payment proceed
+    function handlePaymentProceed() {
+        if (selectedPayment === 'upi') {
+            showSection('payNow');
+            updateProgress(100);
+            setupPaymentAmount();
+            generateQRCode();
+            startPaymentTimer();
+        }
+    }
+
+    // Setup payment amount
+    function setupPaymentAmount() {
+        const amountElement = document.getElementById('paymentAmount');
+        if (selectedPlan === 'monthly') {
+            amountElement.textContent = '₹8,499';
+        } else if (selectedPlan === 'weekly') {
+            amountElement.textContent = '₹1,950';
+        }
+    }
+
+    // Generate QR Code - MULTIPLE FALLBACK APPROACH
+    function generateQRCode() {
+        let upiLink = '';
+        
+        if (selectedPlan === 'monthly') {
+            upiLink = 'upi://pay?pa=nibilxd@axl&pn=nivi-ON%20Pro%20monthly%20plan&cu=INR&am=8499';
+        } else if (selectedPlan === 'weekly') {
+            upiLink = 'upi://pay?pa=nibilxd@axl&pn=nivi-ON%20Pro%20weekly%20plan&cu=INR&am=1950';
+        }
+
+        console.log('Generating QR code for:', upiLink);
+
+        const qrCodeElement = document.getElementById('qrCode');
+        qrCodeElement.innerHTML = 'Generating QR Code...';
+
+        // Method 1: Try QRCode library (from unpkg)
+        if (typeof QRCode !== 'undefined') {
+            try {
+                console.log('Trying QRCode library method 1');
+                QRCode.toCanvas(upiLink, {
+                    width: 180,
+                    height: 180,
+                    margin: 2,
+                    color: {
+                        dark: '#000000',
+                        light: '#FFFFFF'
+                    }
+                }, function (error, canvas) {
+                    if (error) {
+                        console.error('QRCode method 1 failed:', error);
+                        tryMethod2();
+                    } else {
+                        console.log('QRCode method 1 success');
+                        qrCodeElement.innerHTML = '';
+                        qrCodeElement.appendChild(canvas);
+                    }
+                });
+                return;
+            } catch (error) {
+                console.error('QRCode method 1 exception:', error);
+            }
+        }
+
+        // Method 2: Try qrcode-generator library
+        function tryMethod2() {
+            if (typeof qrcode !== 'undefined') {
+                try {
+                    console.log('Trying qrcode-generator method 2');
+                    const qr = qrcode(0, 'M');
+                    qr.addData(upiLink);
+                    qr.make();
+                    
+                    const qrHTML = qr.createImgTag(4, 8);
+                    qrCodeElement.innerHTML = qrHTML;
+                    
+                    // Style the generated image
+                    const img = qrCodeElement.querySelector('img');
+                    if (img) {
+                        img.style.width = '180px';
+                        img.style.height = '180px';
+                        img.style.borderRadius = '8px';
+                        console.log('QRCode method 2 success');
+                        return;
+                    }
+                } catch (error) {
+                    console.error('QRCode method 2 failed:', error);
+                }
+            }
+            
+            // Method 3: Use online QR generator API
+            tryMethod3();
+        }
+
+        // Method 3: Online QR generator
+        function tryMethod3() {
+            console.log('Trying online QR generator method 3');
+            generateManualQRCode(upiLink);
+        }
+
+        // Start with method 2 if method 1 not available
+        tryMethod2();
+    }
+
+    // Start payment timer
+    function startPaymentTimer() {
+        // Clear any existing timer
+        if (paymentTimer) {
+            clearInterval(paymentTimer);
+        }
+
+        timeRemaining = 300; // Reset to 5 minutes (300 seconds)
+        console.log('Starting timer with', timeRemaining, 'seconds');
+        
+        updateTimerDisplay();
+
+        paymentTimer = setInterval(() => {
+            timeRemaining--;
+            updateTimerDisplay();
+
+            if (timeRemaining <= 0) {
+                console.log('Timer expired, showing payment failed');
+                clearInterval(paymentTimer);
+                showPaymentFailed();
+            }
+        }, 1000);
+    }
+
+    // Update timer display
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        const timerElement = document.getElementById('timerDisplay');
+        if (timerElement) {
+            timerElement.textContent = display;
+        }
+    }
+
+    // Handle pay now
+    function handlePayNow() {
+        let upiLink = '';
+        
+        if (selectedPlan === 'monthly') {
+            upiLink = 'upi://pay?pa=nibilxd@axl&pn=nivi-ON%20Pro%20monthly%20plan&cu=INR&am=8499';
+        } else if (selectedPlan === 'weekly') {
+            upiLink = 'upi://pay?pa=nibilxd@axl&pn=nivi-ON%20Pro%20weekly%20plan&cu=INR&am=1950';
+        }
+
+        console.log('Opening UPI link:', upiLink);
+        
+        // Open UPI app
+        window.location.href = upiLink;
+    }
+
+    // Show payment failed
+    function showPaymentFailed() {
+        console.log('Showing payment failed section');
+        
+        // Clear timer
+        if (paymentTimer) {
+            clearInterval(paymentTimer);
+            paymentTimer = null;
+        }
+        
+        showSection('paymentFailed');
+        updateProgress(25);
+    }
+
+    // Handle retry payment
+    function handleRetryPayment() {
+        console.log('Retrying payment');
+        
+        // Reset selections
+        selectedPlan = null;
+        selectedPayment = null;
+        
+        // Clear timer
+        if (paymentTimer) {
+            clearInterval(paymentTimer);
+            paymentTimer = null;
+        }
+
+        // Reset UI
+        document.querySelectorAll('.plan-card').forEach(card => {
+            card.classList.remove('selected', 'hidden');
+        });
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        document.getElementById('selectPlanBtn').disabled = true;
+        document.getElementById('proceedPaymentBtn').disabled = true;
+
+        // Go back to plan selection
+        showSection('planSelection');
+        updateProgress(50);
+    }
+
+    // Show section
+    function showSection(sectionName) {
+        console.log('Showing section:', sectionName);
+        
+        // Hide all sections
+        Object.values(sections).forEach(section => {
+            section.classList.remove('active');
+        });
+
+        // Show target section
+        if (sections[sectionName]) {
+            sections[sectionName].classList.add('active');
+        } else {
+            console.error('Section not found:', sectionName);
+        }
+    }
+
+    // Update progress bar
+    function updateProgress(percentage) {
+        progressFill.style.width = percentage + '%';
+    }
+
+    // Smooth scrolling for mobile
+    function smoothScrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    // Add smooth scroll when changing sections
+    const originalShowSection = showSection;
+    showSection = function(sectionName) {
+        originalShowSection(sectionName);
+        smoothScrollToTop();
+    };
+</script>
+</body
+</html>

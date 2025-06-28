@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>nivi-ON by Wisitrix - New Era of AI Videos</title>
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #000;
+  background: #fff;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Navigation - Enhanced */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  z-index: 9999;
+  padding: 1rem 0;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+nav.scrolled {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.logo {
+    height: auto;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    max-width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    cursor: pointer;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #000;
+    line-height: 1;
+    background: linear-gradient(135deg, #000 0%, #333 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.logo-subtitle {
+    font-size: 0.7rem;
+    color: #666;
+    font-weight: 500;
+    margin-top: -2px;
+    letter-spacing: 0.5px;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+  transition: all 0.3s ease;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #000;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links a:hover {
+  color: #333;
+}
+
+/* Enhanced Hamburger Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 10001;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.hamburger:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background: #000;
+  margin: 3px 0;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(-45deg) translate(-6px, 6px);
+  background: #fff;
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(45deg) translate(-6px, -6px);
+  background: #fff;
+}
+
+.hamburger.active {
+  background: #000;
+}
+
+/* Enhanced Mobile Menu with Close Button */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 350px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(30px);
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 80px 2rem 2rem;
+  z-index: 10000;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-logo {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
+}
+
+.close-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.mobile-menu ul {
+  list-style: none;
+}
+
+.mobile-menu ul li {
+  margin: 2.5rem 0;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.3s ease;
+}
+
+.mobile-menu.active ul li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mobile-menu.active ul li:nth-child(1) { transition-delay: 0.1s; }
+.mobile-menu.active ul li:nth-child(2) { transition-delay: 0.2s; }
+.mobile-menu.active ul li:nth-child(3) { transition-delay: 0.3s; }
+.mobile-menu.active ul li:nth-child(4) { transition-delay: 0.4s; }
+.mobile-menu.active ul li:nth-child(5) { transition-delay: 0.5s; }
+.mobile-menu.active ul li:nth-child(6) { transition-delay: 0.6s; }
+.mobile-menu.active ul li:nth-child(7) { transition-delay: 0.7s; }
+
+.mobile-menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: block;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu ul li a:hover {
+  color: #ccc;
+  padding-left: 1rem;
+}
+
+/* Mobile Menu Overlay */
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Enhanced Hero Section */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23000" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+  opacity: 0.3;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.1; }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero h1 {
+  font-size: 4.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #000 0%, #333 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hero .subtitle {
+  font-size: 1.6rem;
+  color: #666;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.hero .tagline {
+  font-size: 2.2rem;
+  color: #000;
+  font-weight: 600;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.hero .tagline::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #000, transparent);
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 1.2rem 2.5rem;
+  background: linear-gradient(135deg, #000 0%, #333 100%);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Sections */
+section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  color: #000;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #000, transparent);
+  border-radius: 2px;
+}
+
+/* Enhanced Features Section */
+.features {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  position: relative;
+}
+
+.features::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><circle cx="30" cy="30" r="1" fill="%23000" opacity="0.05"/></svg>');
+  pointer-events: none;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  margin-top: 4rem;
+}
+
+.feature-card {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 25px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #000, #333);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover::before {
+  transform: scaleX(1);
+}
+
+.feature-card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #000 0%, #333 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.feature-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+}
+
+.feature-card h3 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: #000;
+  font-weight: 600;
+}
+
+.feature-card p {
+  color: #666;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+/* Video Showcase Section */
+.video-showcase {
+  background: #000;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.video-showcase::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="%23fff" opacity="0.1"/></svg>');
+  animation: float 20s infinite linear;
+}
+
+.video-showcase .section-title {
+  color: #fff;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.video-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.video-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 50px rgba(255, 255, 255, 0.1);
+}
+
+.video-thumbnail {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #333 0%, #666 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.video-thumbnail video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.play-button {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  transition: all 0.3s ease;
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.play-button:hover {
+  transform: scale(1.1);
+  background: #fff;
+}
+
+.play-button svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  margin-left: 3px;
+}
+
+.video-info {
+  padding: 1.5rem;
+}
+
+.video-info h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.video-info p {
+  color: #ccc;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.video-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.video-stat {
+  text-align: center;
+}
+
+.video-stat-number {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.video-stat-label {
+  font-size: 0.8rem;
+  color: #ccc;
+}
+
+/* Pricing Section */
+.pricing {
+  background: #fff;
+  position: relative;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.pricing-card {
+  background: #fff;
+  border-radius: 25px;
+  padding: 2.5rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.pricing-card.featured {
+  border-color: #000;
+  transform: scale(1.05);
+}
+
+.pricing-card.featured::before {
+  content: 'Most Popular';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #000;
+  color: #fff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.pricing-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.pricing-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 0.5rem;
+}
+
+.pricing-price {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #000;
+  margin-bottom: 0.5rem;
+}
+
+.pricing-period {
+  color: #666;
+  font-size: 1rem;
+}
+
+.pricing-features {
+  list-style: none;
+  margin-bottom: 2rem;
+}
+
+.pricing-features li {
+  padding: 0.5rem 0;
+  color: #666;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.pricing-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #000;
+  font-weight: bold;
+}
+
+.pricing-button {
+  width: 100%;
+  padding: 1rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pricing-button:hover {
+  background: #333;
+  transform: translateY(-2px);
+}
+
+.pricing-card.featured .pricing-button {
+  background: linear-gradient(135deg, #000 0%, #333 100%);
+}
+
+/* Enhanced Benchmark Section */
+.benchmark {
+  background: #fff;
+  position: relative;
+}
+
+.benchmark-content {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.benchmark-subtitle {
+  font-size: 1.3rem;
+  color: #666;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.graphs-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 3rem;
+    margin: 4rem 0;
+    justify-items: center;
+}
+
+.graph-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.graph-image:hover {
+    transform: scale(1.05);
+}
+
+.graph-image img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.graph-image:hover img {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.performance-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, #000 0%, #333 100%);
+  color: #fff;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+.stat-card:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+
+.stat-number {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+/* Enhanced API Section */
+.api {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.api::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="%23fff" opacity="0.1"/></svg>');
+  animation: float 20s infinite linear;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-100px); }
+}
+
+.api .section-title {
+  color: #fff;
+}
+
+.api-intro {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.api-intro p {
+  font-size: 1.3rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+  font-weight: 300;
+}
+
+.api-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.api-feature {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2.5rem;
+  border-radius: 20px;
+  text-align: center;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.api-feature:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px);
+}
+
+.api-feature-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.api-feature:hover .api-feature-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.api-feature-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.api-feature h4 {
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.api-feature p {
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.code-examples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+  gap: 3rem;
+  margin-top: 4rem;
+}
+
+.code-block {
+  background: #0d1117;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid #30363d;
+  transition: all 0.3s ease;
+}
+
+.code-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.code-header {
+  background: linear-gradient(135deg, #161b22 0%, #1c2128 100%);
+  padding: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #30363d;
+}
+
+.code-title {
+  color: #f0f6fc;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.1rem;
+}
+
+.code-title svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.copy-btn {
+  background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.copy-btn:hover {
+  background: linear-gradient(135deg, #2ea043 0%, #238636 100%);
+  transform: translateY(-2px);
+}
+
+.copy-btn.copied {
+  background: linear-gradient(135deg, #1f6feb 0%, #0969da 100%);
+}
+
+.copy-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.code-content {
+  padding: 2rem;
+  color: #f0f6fc;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Consolas', monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.code-content .keyword {
+  color: #ff7b72;
+  font-weight: 600;
+}
+
+.code-content .string {
+  color: #a5d6ff;
+}
+
+.code-content .comment {
+  color: #8b949e;
+  font-style: italic;
+}
+
+.code-explanation {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  margin-top: 1rem;
+  border-radius: 15px;
+  border-left: 4px solid #fff;
+  backdrop-filter: blur(20px);
+}
+
+.code-explanation h4 {
+  margin-bottom: 1.2rem;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.code-explanation ul {
+  list-style: none;
+  padding: 0;
+}
+
+.code-explanation li {
+  color: #ccc;
+  margin-bottom: 0.8rem;
+  padding-left: 1.5rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.code-explanation li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Enhanced Try Section */
+.try-section {
+  background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+  color: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.try-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23fff" opacity="0.1"/></svg>');
+  animation: float 20s infinite linear;
+}
+
+.try-section .section-title {
+  color: #fff;
+}
+
+.try-content {
+  position: relative;
+  z-index: 2;
+}
+
+.try-description {
+  font-size: 1.3rem;
+  color: #ccc;
+  margin-bottom: 3rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.try-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.try-feature {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.try-feature:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px);
+}
+
+.try-feature-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.try-feature:hover .try-feature-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.try-feature-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.try-feature h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.try-feature p {
+  color: #ccc;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.try-button {
+  display: inline-block;
+  padding: 1.5rem 3.5rem;
+  background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+  color: #000;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.try-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s;
+}
+
+.try-button:hover::before {
+  left: 100%;
+}
+
+.try-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(255, 255, 255, 0.3);
+}
+
+/* Enhanced Footer */
+footer {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 4rem 0;
+  text-align: center;
+  border-top: 1px solid #e9ecef;
+  position: relative;
+}
+
+.footer-content {
+  color: #666;
+}
+
+.footer-content p {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.footer-link {
+  color: #000;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+  color: #333;
+}
+
+/* Scroll to Top Button */
+.scroll-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #000 0%, #333 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-top svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* Loading Animation */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  transition: opacity 0.5s ease;
+}
+
+.loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #000;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+      opacity: 0;
+      transform: translateY(30px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-links {
+      display: none;
+  }
+
+  .hamburger {
+      display: flex;
+  }
+
+  .hero h1 {
+      font-size: 2.8rem;
+  }
+
+  .hero .tagline {
+      font-size: 1.6rem;
+  }
+
+  .section-title {
+      font-size: 2.2rem;
+  }
+
+  .code-examples {
+      grid-template-columns: 1fr;
+  }
+
+  .graphs-container {
+      grid-template-columns: 1fr;
+  }
+
+  .features-grid {
+      grid-template-columns: 1fr;
+  }
+
+  .api-features {
+      grid-template-columns: 1fr;
+  }
+
+  .try-features {
+      grid-template-columns: repeat(2, 1fr);
+  }
+
+  .performance-stats {
+      grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mobile-menu {
+      width: 100%;
+  }
+
+  section {
+      padding: 4rem 0;
+  }
+
+  .video-grid {
+      grid-template-columns: 1fr;
+  }
+
+  .pricing-grid {
+      grid-template-columns: 1fr;
+  }
+
+  .pricing-card.featured {
+      transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+      padding: 0 15px;
+  }
+
+  .hero h1 {
+      font-size: 2.2rem;
+  }
+
+  .section-title {
+      font-size: 1.8rem;
+  }
+
+  .performance-stats {
+      grid-template-columns: 1fr;
+  }
+
+  .try-features {
+      grid-template-columns: 1fr;
+  }
+
+  .cta-button, .try-button {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+  }
+
+  .feature-card, .api-feature, .try-feature {
+      padding: 1.5rem;
+  }
+}
+
+/* Ripple Effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 600ms linear;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+@keyframes ripple {
+  to {
+      transform: scale(4);
+      opacity: 0;
+  }
+}
+</style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="navbar">
+      <div class="container">
+          <div class="nav-container">
+              <div class="logo">
+                  <span class="logo-text">nivi-ON</span>
+                  <span class="logo-subtitle">by Wisitrix</span>
+              </div>
+              <ul class="nav-links">
+                  <li><a href="#home">Home</a></li>
+                  <li><a href="#features">Features</a></li>
+                  <li><a href="#pricing">Pricing</a></li>
+                  <li><a href="#benchmark">Benchmark</a></li>
+                  <li><a href="#api">API</a></li>
+                  <li><a href="#try">Try Now</a></li>
+              </ul>
+              <div class="hamburger" id="hamburger">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+              </div>
+          </div>
+      </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+      <div class="mobile-menu-header">
+          <div class="mobile-menu-logo">nivi-ON</div>
+          <button class="close-btn" id="close-btn">
+              <svg viewBox="0 0 24 24">
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+              </svg>
+          </button>
+      </div>
+      <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#showcase">Showcase</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#benchmark">Benchmark</a></li>
+          <li><a href="#api">API</a></li>
+          <li><a href="#try">Try Now</a></li>
+      </ul>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+      <div class="hero-content">
+          <h1>nivi-ON</h1>
+          <p class="subtitle">by Wisitrix</p>
+          <p class="tagline">New Era of AI Videos</p>
+          <a href="#features" class="cta-button">Discover the Future</a>
+      </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+      <div class="container">
+          <h2 class="section-title fade-in">Powerful Capabilities</h2>
+          <div class="features-grid">
+              <div class="feature-card fade-in">
+                  <div class="feature-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/>
+                      </svg>
+                  </div>
+                  <h3>5-Minute 4K Videos</h3>
+                  <p>Generate up to 5 minutes of ultra-realistic 4K video content with unprecedented quality and detail.</p>
+              </div>
+              <div class="feature-card fade-in">
+                  <div class="feature-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      </svg>
+                  </div>
+                  <h3>High-Quality Visuals</h3>
+                  <p>Produces smooth, realistic video footage with accurate physics including lighting, object motion, and camera dynamics.</p>
+              </div>
+              <div class="feature-card fade-in">
+                  <div class="feature-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                      </svg>
+                  </div>
+                  <h3>Native Audio</h3>
+                  <p>Creates synchronized soundtracks—dialogue, ambient noises, sound effects, even lip-synced speech directly tied to the action.</p>
+              </div>
+              <div class="feature-card fade-in">
+                  <div class="feature-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                      </svg>
+                  </div>
+                  <h3>Advanced Physics</h3>
+                  <p>Realistic physics simulation for natural movement, lighting effects, and environmental interactions.</p>
+              </div>
+              <div class="feature-card fade-in">
+                  <div class="feature-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                      </svg>
+                  </div>
+                  <h3>Precision Control</h3>
+                  <p>Fine-tune every aspect of your video generation with advanced parameters and style controls.</p>
+              </div>
+              <div class="feature-card fade-in">
+                  <div class="feature-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                      </svg>
+                  </div>
+                  <h3>Lightning Fast</h3>
+                  <p>Industry-leading generation speed without compromising on quality or detail.</p>
+              </div>
+          </div>
+      </div>
+  </section>
+
+
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="pricing">
+      <div class="container">
+          <h2 class="section-title fade-in">Choose Your Plan</h2>
+          <div class="pricing-grid">
+              <div class="pricing-card fade-in">
+                  <div class="pricing-header">
+                      <h3 class="pricing-title">Free Trial</h3>
+                      <div class="pricing-price">₹0</div>
+                      <p class="pricing-period">forever</p>
+                  </div>
+                  <ul class="pricing-features">
+                      <li>Up to 1080p resolution</li>
+                      <li>Under 1 minute duration</li>
+                      <li>3 videos per day</li>
+                      <li>No API access</li>
+                  </ul>
+                  <button class="pricing-button">Get Started</button>
+              </div>
+              <div class="pricing-card fade-in">
+                  <div class="pricing-header">
+                      <h3 class="pricing-title">Weekly</h3>
+                      <div class="pricing-price">₹1,950</div>
+                      <p class="pricing-period">per week</p>
+                  </div>
+                  <ul class="pricing-features">
+                      <li>Up to 4K resolution</li>
+                      <li>Up to 5 minutes duration</li>
+                      <li>No limits</li>
+                      <li>API access</li>
+                  </ul>
+                  <button class="pricing-button">Get Started</button>
+              </div>
+              <div class="pricing-card featured fade-in">
+                  <div class="pricing-header">
+                      <h3 class="pricing-title">Monthly</h3>
+                      <div class="pricing-price">₹8,499</div>
+                      <p class="pricing-period">per month</p>
+                  </div>
+                  <ul class="pricing-features">
+                      <li>Up to 4K resolution</li>
+                      <li>Up to 5 minutes duration</li>
+                      <li>No limits</li>
+                      <li>API access</li>
+                  </ul>
+                  <button class="pricing-button">Start Free Trial</button>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- Benchmark Section -->
+  <section id="benchmark" class="benchmark">
+      <div class="container">
+          <h2 class="section-title fade-in">Industry-Leading Performance</h2>
+          <div class="benchmark-content fade-in">
+              <p class="benchmark-subtitle">nivi-ON beats all other AI models currently available in the market</p>
+          </div>
+          
+          <div class="graphs-container">
+              <div class="graph-image">
+                  <img src="g1.jpg" alt="Performance Graph 1">
+              </div>
+              <div class="graph-image">
+                  <img src="g2.jpg" alt="Performance Graph 2">
+              </div>
+          </div>
+
+          <div class="performance-stats">
+              <div class="stat-card fade-in">
+                  <div class="stat-number">98%</div>
+                  <div class="stat-label">Realism Score</div>
+              </div>
+              <div class="stat-card fade-in">
+                  <div class="stat-number">5x</div>
+                  <div class="stat-label">Faster Generation</div>
+              </div>
+              <div class="stat-card fade-in">
+                  <div class="stat-number">4K</div>
+                  <div class="stat-label">Ultra HD Quality</div>
+              </div>
+              <div class="stat-card fade-in">
+                  <div class="stat-number">99.9%</div>
+                  <div class="stat-label">Uptime</div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- API Section -->
+  <section id="api" class="api">
+      <div class="container">
+          <h2 class="section-title fade-in">Powerful API Integration</h2>
+          <div class="api-intro fade-in">
+              <p>Integrate nivi-ON's cutting-edge video generation into your applications</p>
+              <p><strong>Rate Limit:</strong> 100 requests per hour | <strong>Access:</strong> Pro version only</p>
+          </div>
+
+          <div class="api-features">
+              <div class="api-feature fade-in">
+                  <div class="api-feature-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/>
+                      </svg>
+                  </div>
+                  <h4>Real-time Processing</h4>
+                  <p>Lightning-fast video generation with real-time status updates</p>
+              </div>
+              <div class="api-feature fade-in">
+                  <div class="api-feature-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                      </svg>
+                  </div>
+                  <h4>Secure & Reliable</h4>
+                  <p>Enterprise-grade security with 99.9% uptime guarantee</p>
+              </div>
+              <div class="api-feature fade-in">
+                  <div class="api-feature-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                      </svg>
+                  </div>
+                  <h4>Comprehensive Docs</h4>
+                  <p>Detailed documentation with examples and best practices</p>
+              </div>
+              <div class="api-feature fade-in">
+                  <div class="api-feature-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-1 16H9V7h9v14z"/>
+                      </svg>
+                  </div>
+                  <h4>Multiple Formats</h4>
+                  <p>Support for various output formats and resolutions</p>
+              </div>
+          </div>
+
+          <div class="code-examples">
+              <div class="code-block fade-in">
+                  <div class="code-header">
+                      <span class="code-title">
+                          <svg viewBox="0 0 24 24">
+                              <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+                          </svg>
+                          Python Implementation
+                      </span>
+                      <button class="copy-btn" onclick="copyCode('python-code')">
+                          <svg viewBox="0 0 24 24">
+                              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-1 16H9V7h9v14z"/>
+                          </svg>
+                          Copy
+                      </button>
+                  </div>
+                  <div class="code-content" id="python-code"><span class="keyword">import</span> requests
+
+headers = {
+    <span class="string">"Authorization"</span>: <span class="string">"Bearer YOUR_API_KEY"</span>,  <span class="comment"># Replace with your actual API key</span>
+    <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>
+}
+
+payload = {
+    <span class="string">"prompt"</span>: <span class="string">"A neon dragon flying through a futuristic cityscape"</span>,
+    <span class="string">"duration"</span>: 15,
+    <span class="string">"resolution"</span>: <span class="string">"1080p"</span>,
+    <span class="string">"style"</span>: <span class="string">"cyber-dream"</span>,
+    <span class="string">"audio_track"</span>: <span class="string">"synthwave"</span>
+}
+
+response = requests.post(<span class="string">"https://api.wisitrix.com/v1/nivi-on/generate"</span>, json=payload, headers=headers)
+
+<span class="keyword">print</span>(response.json())</div>
+                  <div class="code-explanation">
+                      <h4>Python Implementation Guide:</h4>
+                      <ul>
+                          <li>Import the requests library for HTTP communication</li>
+                          <li>Configure authentication headers with your API key</li>
+                          <li>Define video generation parameters in payload</li>
+                          <li>Send POST request to nivi-ON API endpoint</li>
+                          <li>Process response containing generated video URL</li>
+                      </ul>
+                  </div>
+              </div>
+
+              <div class="code-block fade-in">
+                  <div class="code-header">
+                      <span class="code-title">
+                          <svg viewBox="0 0 24 24">
+                              <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+                          </svg>
+                          JavaScript Implementation
+                      </span>
+                      <button class="copy-btn" onclick="copyCode('js-code')">
+                          <svg viewBox="0 0 24 24">
+                              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-1 16H9V7h9v14z"/>
+                          </svg>
+                          Copy
+                      </button>
+                  </div>
+                  <div class="code-content" id="js-code"><span class="keyword">fetch</span>(<span class="string">"https://api.wisitrix.com/v1/nivi-on/generate"</span>, {
+  method: <span class="string">"POST"</span>,
+  headers: {
+    <span class="string">"Authorization"</span>: <span class="string">"Bearer YOUR_API_KEY"</span>,  <span class="comment">// Replace with your actual API key</span>
+    <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>
+  },
+  body: JSON.stringify({
+    prompt: <span class="string">"A neon dragon flying through a futuristic cityscape"</span>,
+    duration: 15,
+    resolution: <span class="string">"1080p"</span>,
+    style: <span class="string">"cyber-dream"</span>,
+    audio_track: <span class="string">"synthwave"</span>
+  })
+})
+.then(response => response.json())
+.then(data => {
+  console.log(<span class="string">"Video URL:"</span>, data.video_url);
+})
+.catch(error => {
+  console.error(<span class="string">"Error:"</span>, error);
+});</div>
+                  <div class="code-explanation">
+                      <h4>JavaScript Implementation Guide:</h4>
+                      <ul>
+                          <li>Use native fetch API for HTTP requests</li>
+                          <li>Configure POST method with authentication headers</li>
+                          <li>Stringify video parameters in request body</li>
+                          <li>Handle response with promise chaining</li>
+                          <li>Log video URL or catch and handle errors</li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- Try Section -->
+  <section id="try" class="try-section">
+      <div class="container">
+          <div class="try-content">
+              <h2 class="section-title fade-in">Experience the Future</h2>
+              <p class="try-description fade-in">
+                  Ready to transform your creative vision into stunning 4K videos? 
+                  Try nivi-ON today and discover the power of next-generation AI video generation.
+              </p>
+              
+              <div class="try-features">
+                  <div class="try-feature fade-in">
+                      <div class="try-feature-icon">
+                          <svg viewBox="0 0 24 24">
+                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                          </svg>
+                      </div>
+                      <h4>Free Trial</h4>
+                      <p>Start with 3 free video generations</p>
+                  </div>
+                  <div class="try-feature fade-in">
+                      <div class="try-feature-icon">
+                          <svg viewBox="0 0 24 24">
+                              <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/>
+                          </svg>
+                      </div>
+                      <h4>Instant Results</h4>
+                      <p>Generate videos in under 2 minutes</p>
+                  </div>
+                  <div class="try-feature fade-in">
+                      <div class="try-feature-icon">
+                          <svg viewBox="0 0 24 24">
+                              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                          </svg>
+                      </div>
+                      <h4>No Setup</h4>
+                      <p>Start creating immediately, no installation required</p>
+                  </div>
+                  <div class="try-feature fade-in">
+                      <div class="try-feature-icon">
+                          <svg viewBox="0 0 24 24">
+                              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                          </svg>
+                      </div>
+                      <h4>Full Control</h4>
+                      <p>Customize every aspect of your video</p>
+                  </div>
+              </div>
+              
+              <div class="fade-in">
+                  <a href="payment.html" class="try-button">Launch nivi-ON Studio</a>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+      <div class="container">
+          <div class="footer-content">
+              <p>Developed by <a href="https://wisitrix.in" class="footer-link">Wisitrix.in</a></p>
+              <p>&copy; 2025 Wisitrix. All rights reserved.</p>
+          </div>
+      </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-top" id="scroll-top">
+      <svg viewBox="0 0 24 24">
+          <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+      </svg>
+  </button>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+      <div class="loader"></div>
+  </div>
+
+  <script>
+// Loading animation
+window.addEventListener('load', function() {
+  const loadingOverlay = document.getElementById('loading-overlay');
+  setTimeout(() => {
+      loadingOverlay.classList.add('hidden');
+  }, 1000);
+});
+
+// Enhanced mobile menu functionality
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileOverlay = document.getElementById('mobile-overlay');
+const closeBtn = document.getElementById('close-btn');
+
+function openMobileMenu() {
+  hamburger.classList.add('active');
+  mobileMenu.classList.add('active');
+  mobileOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu() {
+  hamburger.classList.remove('active');
+  mobileMenu.classList.remove('active');
+  mobileOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+hamburger.addEventListener('click', function() {
+  if (mobileMenu.classList.contains('active')) {
+      closeMobileMenu();
+  } else {
+      openMobileMenu();
+  }
+});
+
+// Close button functionality
+closeBtn.addEventListener('click', closeMobileMenu);
+
+// Close mobile menu when clicking overlay
+mobileOverlay.addEventListener('click', closeMobileMenu);
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(event) {
+  if (!hamburger.contains(event.target) && !mobileMenu.contains(event.target)) {
+      closeMobileMenu();
+  }
+});
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      closeMobileMenu(); // Close mobile menu when navigating
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+          target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+          });
+      }
+  });
+});
+
+// Enhanced navbar scroll effect
+window.addEventListener('scroll', function() {
+  const navbar = document.getElementById('navbar');
+  const scrollTop = document.getElementById('scroll-top');
+  
+  if (window.scrollY > 100) {
+      navbar.classList.add('scrolled');
+      scrollTop.classList.add('visible');
+  } else {
+      navbar.classList.remove('scrolled');
+      scrollTop.classList.remove('visible');
+      }
+});
+
+// Scroll to top functionality
+document.getElementById('scroll-top').addEventListener('click', function() {
+  window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+  });
+});
+
+// Enhanced fade in animation on scroll
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver(function(entries) {
+  entries.forEach(entry => {
+      if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+      }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.fade-in').forEach(el => {
+  observer.observe(el);
+});
+
+// Enhanced copy code functionality
+function copyCode(elementId) {
+  const codeElement = document.getElementById(elementId);
+  const text = codeElement.textContent;
+  
+  navigator.clipboard.writeText(text).then(function() {
+      const button = event.target.closest('.copy-btn');
+      const originalHTML = button.innerHTML;
+      button.innerHTML = `
+          <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: currentColor;">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+          Copied!
+      `;
+      button.classList.add('copied');
+      
+      setTimeout(function() {
+          button.innerHTML = originalHTML;
+          button.classList.remove('copied');
+      }, 2000);
+  }).catch(function(err) {
+      console.error('Failed to copy text: ', err);
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      const button = event.target.closest('.copy-btn');
+      const originalHTML = button.innerHTML;
+      button.innerHTML = 'Copied!';
+      setTimeout(() => {
+          button.innerHTML = originalHTML;
+      }, 2000);
+  });
+}
+
+// Video play functionality
+function playVideo(button) {
+  const videoCard = button.closest('.video-card');
+  const video = videoCard.querySelector('video');
+  
+  if (video.paused) {
+      video.play();
+      button.style.display = 'none';
+  } else {
+      video.pause();
+      button.style.display = 'flex';
+  }
+}
+
+// Add click event to videos to toggle play/pause
+document.querySelectorAll('.video-thumbnail video').forEach(video => {
+  video.addEventListener('click', function() {
+      const playButton = this.parentElement.querySelector('.play-button');
+      if (this.paused) {
+          this.play();
+          playButton.style.display = 'none';
+      } else {
+          this.pause();
+          playButton.style.display = 'flex';
+      }
+  });
+  
+  // Show play button when video ends
+  video.addEventListener('ended', function() {
+      const playButton = this.parentElement.querySelector('.play-button');
+      playButton.style.display = 'flex';
+  });
+});
+
+// Enhanced feature card interactions
+document.querySelectorAll('.feature-card').forEach(card => {
+  card.addEventListener('mouseenter',function() {
+      this.style.transform = 'translateY(-15px) scale(1.02)';
+      this.style.boxShadow = '0 25px 60px rgba(0, 0, 0, 0.15)';
+  });
+  
+  card.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0) scale(1)';
+      this.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.1)';
+  });
+});
+
+// Optimized parallax effect for hero section
+let ticking = false;
+function updateParallax() {
+  const scrolled = window.pageYOffset;
+  const hero = document.querySelector('.hero');
+  if (hero && scrolled < window.innerHeight) {
+      hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+  }
+  ticking = false;
+}
+
+window.addEventListener('scroll', function() {
+  if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+  }
+});
+
+// Enhanced image loading
+document.querySelectorAll('img').forEach(img => {
+  img.addEventListener('load', function() {
+      this.style.opacity = '1';
+      this.style.transform = 'scale(1)';
+  });
+  
+  // Set initial styles
+  img.style.opacity = '0';
+  img.style.transform = 'scale(0.95)';
+  img.style.transition = 'all 0.3s ease';
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+      closeMobileMenu();
+  }
+});
+
+// Smooth reveal animations with stagger
+const staggerElements = document.querySelectorAll('.features-grid .feature-card, .api-features .api-feature, .try-features .try-feature');
+staggerElements.forEach((el, index) => {
+  el.style.transitionDelay = `${index * 0.1}s`;
+});
+
+// Add click ripple effect
+function createRipple(event) {
+  const button = event.currentTarget;
+  const circle = document.createElement('span');
+  const diameter = Math.max(button.clientWidth, button.clientHeight);
+  const radius = diameter / 2;
+  
+  circle.style.width = circle.style.height = `${diameter}px`;
+  circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+  circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+  circle.classList.add('ripple');
+  
+  const ripple = button.getElementsByClassName('ripple')[0];
+  if (ripple) {
+      ripple.remove();
+  }
+  
+  button.appendChild(circle);
+}
+
+// Add ripple effect to buttons
+document.querySelectorAll('.cta-button, .try-button, .copy-btn, .pricing-button').forEach(button => {
+  button.addEventListener('click', createRipple);
+});
+
+// Performance optimization: Debounce scroll events
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+      const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+  };
+}
+
+// Apply debouncing to scroll events
+const debouncedScroll = debounce(() => {
+  // Additional scroll-based animations can be added here
+}, 10);
+
+window.addEventListener('scroll', debouncedScroll);
+
+// Pricing card interactions
+document.querySelectorAll('.pricing-button').forEach(button => {
+  button.addEventListener('click', function() {
+      const plan = this.closest('.pricing-card').querySelector('.pricing-title').textContent;
+      console.log(`Selected plan: ${plan}`);
+      // Add pricing logic here
+  });
+});
+</script>
+</body>
+</html>

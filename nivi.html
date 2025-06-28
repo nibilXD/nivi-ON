@@ -1,0 +1,255 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nivi-ON Chat UI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f7f9fc;
+      background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }.container {
+  max-width: 600px;
+  margin: 50px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  padding: 24px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+textarea {
+  width: 290px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.chip {
+  padding: 10px 16px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background: #f1f1f1;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.chip.selected {
+  background: #0066ff;
+  color: white;
+  border-color: #0066ff;
+}
+
+.chip.disabled {
+  background: #e4e4e4;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  background: #fffbe6;
+  color: #856404;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 999;
+}
+
+.popup button {
+  background: none;
+  border: none;
+  float: right;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.send-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  background: #28a745;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  display: none;
+}
+
+.processing {
+  display: none;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.processing svg {
+  width: 64px;
+  height: 64px;
+  margin: 10px auto;
+  fill: #0066ff;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.processing-text {
+  font-size: 16px;
+  margin: 6px 0;
+  color: #555;
+}
+
+.video-section {
+  display: none;
+  margin-top: 30px;
+}
+
+video {
+  width: 100%;
+  border-radius: 12px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    margin: 20px;
+    padding: 16px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Describe Your Video</h2>
+    <textarea id="desc" rows="3" placeholder="Enter your video prompt..."></textarea><div class="chip-group" id="time-options">
+  <div class="chip" data-value="1min">1min</div>
+  <div class="chip disabled" data-value="2min">2min</div>
+  <div class="chip disabled" data-value="3min">3min</div>
+  <div class="chip disabled" data-value="4min">4min</div>
+  <div class="chip disabled" data-value="5min">5min</div>
+</div>
+
+<div class="chip-group" id="res-options">
+  <div class="chip" data-value="480p">480p</div>
+  <div class="chip" data-value="720p">720p</div>
+  <div class="chip" data-value="1080p">1080p</div>
+  <div class="chip disabled" data-value="1440p">1440p</div>
+  <div class="chip disabled" data-value="4K">4K</div>
+</div>
+
+<button id="sendBtn" class="send-btn">Send</button>
+
+<div class="popup" id="popup">
+  <button onclick="closePopup()">&times;</button>
+  Upgrade to nivi-ON Pro to access this feature.
+</div>
+
+<div class="processing" id="processing">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10" stroke="#0066ff" stroke-width="4" fill="none"/>
+  </svg>
+  <p class="processing-text">Analyzing content...</p>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" fill="#0066ff" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+    </rect>
+  </svg>
+  <p class="processing-text">Generating frames...</p>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M12 1v22" stroke="#0066ff" stroke-width="2"/>
+  </svg>
+  <p class="processing-text">Creating audio...</p>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M4 4h16v16H4z" fill="#0066ff" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </svg>
+  <p class="processing-text">Merging video...</p>
+</div>
+
+<div class="video-section" id="videoSection">
+  <video controls src="rr.mp4"></video>
+</div>
+
+  </div>  <script>
+    const timeChips = document.querySelectorAll('#time-options .chip');
+    const resChips = document.querySelectorAll('#res-options .chip');
+    const desc = document.getElementById('desc');
+    const sendBtn = document.getElementById('sendBtn');
+
+    let selectedTime = '';
+    let selectedRes = '';
+
+    timeChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        if (chip.classList.contains('disabled')) return showPopup();
+        timeChips.forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        selectedTime = chip.dataset.value;
+        validateInputs();
+      });
+    });
+
+    resChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        if (chip.classList.contains('disabled')) return showPopup();
+        resChips.forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        selectedRes = chip.dataset.value;
+        validateInputs();
+      });
+    });
+
+    desc.addEventListener('input', validateInputs);
+
+    function validateInputs() {
+      if (desc.value.trim() && selectedTime && selectedRes) {
+        sendBtn.style.display = 'block';
+      } else {
+        sendBtn.style.display = 'none';
+      }
+    }
+
+    function showPopup() {
+      document.getElementById('popup').style.display = 'block';
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+
+    sendBtn.addEventListener('click', () => {
+      sendBtn.style.display = 'none';
+      document.getElementById('processing').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('processing').style.display = 'none';
+        document.getElementById('videoSection').style.display = 'block';
+      }, 240000); // 4 minutes
+    });
+  </script></body>
+</html>
