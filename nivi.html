@@ -1,255 +1,619 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nivi-ON Chat UI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <title>nivi-ON AI Video Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    :root {
+      --primary-dark: #1a1a1a;
+      --secondary-dark: #333333;
+      --text-light: #f0f0f0;
+      --text-dark: #1a1a1a;
+      --bg-light: #ffffff;
+      --bg-dark: #f9f9f9;
+      --border-color: #e0e0e0;
+      --shadow-light: rgba(0, 0, 0, 0.04);
+      --shadow-medium: rgba(0, 0, 0, 0.1);
+      --highlight-color: #000000; /* Used for active states */
+    }
+
     body {
       margin: 0;
       padding: 0;
       font-family: 'Inter', sans-serif;
-      background: #f7f9fc;
-      background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-    }.container {
-  max-width: 600px;
-  margin: 50px auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  padding: 24px;
-}
+      background: var(--bg-dark);
+      color: var(--text-dark);
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #222;
-}
+    .container {
+      max-width: 760px;
+      width: 90%;
+      background: var(--bg-light);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px var(--shadow-medium);
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+      margin: 30px 0;
+      border: 1px solid var(--border-color);
+    }
 
-textarea {
-  width: 290px;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  resize: none;
-  font-size: 16px;
-  margin-bottom: 16px;
-}
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 2em;
+      position: relative;
+    }
 
-.chip-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 16px;
-}
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--highlight-color);
+      border-radius: 2px;
+    }
 
-.chip {
-  padding: 10px 16px;
-  border-radius: 20px;
-  border: 1px solid #ccc;
-  background: #f1f1f1;
-  cursor: pointer;
-  transition: 0.3s;
-}
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-.chip.selected {
-  background: #0066ff;
-  color: white;
-  border-color: #0066ff;
-}
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--primary-dark);
+      font-size: 1em;
+    }
 
-.chip.disabled {
-  background: #e4e4e4;
-  color: #aaa;
-  cursor: not-allowed;
-}
+    textarea {
+      width: calc(100% - 20px);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      resize: vertical;
+      font-size: 0.95em;
+      font-family: 'Inter', sans-serif;
+      min-height: 80px;
+      transition: all 0.2s ease;
+      color: var(--text-dark);
+      background-color: var(--bg-light);
+    }
 
-.popup {
-  display: none;
-  position: fixed;
-  top: 30px;
-  right: 30px;
-  background: #fffbe6;
-  color: #856404;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  z-index: 999;
-}
+    textarea:focus {
+      border-color: var(--highlight-color);
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+      outline: none;
+    }
 
-.popup button {
-  background: none;
-  border: none;
-  float: right;
-  font-size: 18px;
-  cursor: pointer;
-}
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
 
-.send-btn {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  background: #28a745;
-  border: none;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  display: none;
-}
+    .chip {
+      padding: 9px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-dark);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      font-size: 0.9em;
+      color: var(--text-dark);
+    }
 
-.processing {
-  display: none;
-  text-align: center;
-  margin-top: 30px;
-}
+    .chip:hover:not(.disabled) {
+      background: #e0e0e0;
+      border-color: #b0b0b0;
+    }
 
-.processing svg {
-  width: 64px;
-  height: 64px;
-  margin: 10px auto;
-  fill: #0066ff;
-  animation: rotate 2s linear infinite;
-}
+    .chip.selected {
+      background: var(--highlight-color);
+      color: var(--text-light);
+      border-color: var(--highlight-color);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
 
-@keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+    .chip.disabled {
+      background: #f0f0f0;
+      color: #b0b0b0;
+      cursor: not-allowed;
+      border-color: #d0d0d0;
+    }
 
-.processing-text {
-  font-size: 16px;
-  margin: 6px 0;
-  color: #555;
-}
+    .send-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.05em;
+      font-weight: 600;
+      background: var(--highlight-color);
+      border: none;
+      color: var(--text-light);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 25px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+    }
 
-.video-section {
-  display: none;
-  margin-top: 30px;
-}
+    .send-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      background: var(--secondary-dark);
+    }
 
-video {
-  width: 100%;
-  border-radius: 12px;
-}
+    .send-btn:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+      box-shadow: none;
+      color: #999999;
+    }
 
-@media (max-width: 600px) {
-  .container {
-    margin: 20px;
-    padding: 16px;
-  }
-}
+    .popup {
+      display: none;
+      position: fixed;
+      top: 25px;
+      right: 25px;
+      background: #fff3cd; /* Light warning yellow */
+      color: #665200; /* Darker yellow text */
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      z-index: 1000;
+      font-weight: 500;
+      animation: fadeIn 0.3s ease-out;
+      border: 1px solid #ffeeba;
+    }
 
+    .popup button {
+      background: none;
+      border: none;
+      float: right;
+      font-size: 20px;
+      cursor: pointer;
+      color: #665200;
+      margin-left: 12px;
+      line-height: 1;
+    }
+
+    .processing {
+      display: none;
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px;
+      background: var(--bg-dark);
+      border-radius: 10px;
+      box-shadow: inset 0 1px 5px var(--shadow-light);
+      border: 1px solid var(--border-color);
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 5px solid var(--border-color);
+      border-top-color: var(--highlight-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .processing-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      color: var(--primary-dark);
+      font-weight: 500;
+      font-size: 1em;
+    }
+
+    .processing-stage i {
+      font-size: 1.2em;
+      margin-right: 8px;
+      color: var(--secondary-dark);
+    }
+
+    .processing-stage.completed i {
+      color: #28a745; /* Green checkmark */
+    }
+
+    .processing-stage.active i {
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .video-section {
+      display: none;
+      margin-top: 30px;
+      text-align: center;
+      background: var(--bg-dark);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px var(--shadow-light);
+      border: 1px solid var(--border-color);
+    }
+
+    video {
+      width: 100%;
+      max-width: 680px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px var(--shadow-medium);
+      background: #000;
+      border: 1px solid var(--primary-dark);
+    }
+
+    .video-section h3 {
+      font-size: 1.4em;
+      color: var(--primary-dark);
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+
+    .additional-options {
+      margin-top: 25px;
+      border-top: 1px dashed var(--border-color);
+      padding-top: 20px;
+    }
+
+    .option-group {
+      margin-bottom: 18px;
+    }
+
+    .icon-picker {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .icon-picker button {
+        background: var(--bg-dark);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 1em;
+        color: var(--text-dark);
+    }
+
+    .icon-picker button:hover:not(.selected) {
+        background: #e9e9e9;
+        border-color: #b0b0b0;
+    }
+
+    .icon-picker button.selected {
+        background: var(--highlight-color);
+        color: var(--text-light);
+        border-color: var(--highlight-color);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .theme-selection {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 8px;
+    }
+
+    .theme-card {
+        flex: 1 1 calc(33% - 12px); /* Three cards per row */
+        min-width: 110px;
+        background: var(--bg-dark);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 15px 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+
+    .theme-card:hover:not(.selected) {
+        background: #e9e9e9;
+        border-color: #b0b0b0;
+    }
+
+    .theme-card.selected {
+        border-color: var(--highlight-color);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .theme-card i {
+        font-size: 2em;
+        color: var(--secondary-dark);
+        margin-bottom: 8px;
+        transition: color 0.2s ease;
+    }
+
+    .theme-card.selected i {
+        color: var(--highlight-color);
+    }
+
+    .theme-card p {
+        font-weight: 500;
+        color: var(--text-dark);
+        margin: 0;
+        font-size: 0.85em;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px;
+        padding: 25px;
+      }
+      h2 {
+        font-size: 1.7em;
+      }
+      .chip {
+        padding: 7px 14px;
+        font-size: 0.85em;
+      }
+      .send-btn {
+        font-size: 1em;
+        padding: 12px;
+      }
+      .theme-card {
+          flex: 1 1 calc(50% - 12px); /* Two cards per row on smaller screens */
+          min-width: 100px;
+      }
+    }
+
+    @media (max-width: 480px) {
+        .theme-card {
+            flex: 1 1 100%; /* One card per row on very small screens */
+        }
+        .icon-picker button, .chip {
+            font-size: 0.8em;
+            padding: 6px 10px;
+        }
+        label {
+            font-size: 0.95em;
+        }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Describe Your Video</h2>
-    <textarea id="desc" rows="3" placeholder="Enter your video prompt..."></textarea><div class="chip-group" id="time-options">
-  <div class="chip" data-value="1min">1min</div>
-  <div class="chip disabled" data-value="2min">2min</div>
-  <div class="chip disabled" data-value="3min">3min</div>
-  <div class="chip disabled" data-value="4min">4min</div>
-  <div class="chip disabled" data-value="5min">5min</div>
-</div>
+    <h2><i class="fas fa-video"></i> AI Video Generator</h2>
 
-<div class="chip-group" id="res-options">
-  <div class="chip" data-value="480p">480p</div>
-  <div class="chip" data-value="720p">720p</div>
-  <div class="chip" data-value="1080p">1080p</div>
-  <div class="chip disabled" data-value="1440p">1440p</div>
-  <div class="chip disabled" data-value="4K">4K</div>
-</div>
+    <div class="form-group">
+      <label for="desc"><i class="fas fa-edit"></i> Video Description</label>
+      <textarea id="desc" rows="4" placeholder="e.g., A minimalist video showcasing urban architecture, with smooth transitions and ambient sounds."></textarea>
+    </div>
 
-<button id="sendBtn" class="send-btn">Send</button>
+    <div class="form-group">
+      <label><i class="fas fa-hourglass-half"></i> Video Length</label>
+      <div class="chip-group" id="time-options">
+        <div class="chip" data-value="1min">1 min</div>
+        <div class="chip disabled" data-value="2min">2 min <i class="fas fa-lock"></i></div>
+        <div class="chip disabled" data-value="3min">3 min <i class="fas fa-lock"></i></div>
+      </div>
+    </div>
 
-<div class="popup" id="popup">
-  <button onclick="closePopup()">&times;</button>
-  Upgrade to nivi-ON Pro to access this feature.
-</div>
+    <div class="form-group">
+      <label><i class="fas fa-desktop"></i> Resolution</label>
+      <div class="chip-group" id="res-options">
+        <div class="chip" data-value="480p">480p</div>
+        <div class="chip" data-value="720p">720p</div>
+        <div class="chip" data-value="1080p">1080p</div>
+        <div class="chip disabled" data-value="1440p">1440p <i class="fas fa-lock"></i></div>
+      </div>
+    </div>
 
-<div class="processing" id="processing">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="10" stroke="#0066ff" stroke-width="4" fill="none"/>
-  </svg>
-  <p class="processing-text">Analyzing content...</p>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" fill="#0066ff" opacity="0.5">
-      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
-    </rect>
-  </svg>
-  <p class="processing-text">Generating frames...</p>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <path d="M12 1v22" stroke="#0066ff" stroke-width="2"/>
-  </svg>
-  <p class="processing-text">Creating audio...</p>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <path d="M4 4h16v16H4z" fill="#0066ff" opacity="0.4">
-      <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
-    </path>
-  </svg>
-  <p class="processing-text">Merging video...</p>
-</div>
+    <div class="additional-options">
+        <div class="form-group option-group">
+            <label><i class="fas fa-paint-brush"></i> Video Style</label>
+            <div class="theme-selection" id="theme-options">
+                <div class="theme-card selected" data-value="minimalist">
+                    <i class="fas fa-crop-alt"></i>
+                    <p>Minimalist</p>
+                </div>
+                <div class="theme-card" data-value="documentary">
+                    <i class="fas fa-camera"></i>
+                    <p>Documentary</p>
+                </div>
+                <div class="theme-card" data-value="abstract">
+                    <i class="fas fa-shapes"></i>
+                    <p>Abstract</p>
+                </div>
+                <div class="theme-card disabled" data-value="animation">
+                    <i class="fas fa-pencil-alt"></i>
+                    <p>Animation <i class="fas fa-lock"></i></p>
+                </div>
+                <div class="theme-card disabled" data-value="corporate">
+                    <i class="fas fa-building"></i>
+                    <p>Corporate <i class="fas fa-lock"></i></p>
+                </div>
+            </div>
+        </div>
 
-<div class="video-section" id="videoSection">
-  <video controls src="rr.mp4"></video>
-</div>
+        <div class="form-group option-group">
+            <label><i class="fas fa-music"></i> Background Music</label>
+            <div class="icon-picker" id="music-options">
+                <button type="button" class="selected" data-value="ambient"><i class="fas fa-water"></i> Ambient</button>
+                <button type="button" data-value="none"><i class="fas fa-volume-mute"></i> None</button>
+                <button type="button" data-value="classical"><i class="fas fa-violin"></i> Classical</button>
+                <button type="button" class="disabled" data-value="lofi"><i class="fas fa-headphones"></i> Lofi <i class="fas fa-lock"></i></button>
+            </div>
+        </div>
+    </div>
 
-  </div>  <script>
+    <button id="sendBtn" class="send-btn" disabled>
+      <i class="fas fa-sync-alt"></i> Generate Video
+    </button>
+
+    <div class="popup" id="popup">
+      <button onclick="closePopup()">&times;</button>
+      Upgrade to nivi-ON Pro to unlock this feature!
+    </div>
+
+    <div class="processing" id="processing">
+      <div class="spinner"></div>
+      <div class="processing-stage" id="stage1"><i class="fas fa-lightbulb"></i> Analyzing content...</div>
+      <div class="processing-stage" id="stage2"><i class="fas fa-cube"></i> Composing visuals...</div>
+      <div class="processing-stage" id="stage3"><i class="fas fa-headphones"></i> Crafting audio...</div>
+      <div class="processing-stage" id="stage4"><i class="fas fa-video"></i> Finalizing video...</div>
+    </div>
+
+    <div class="video-section" id="videoSection">
+      <h3><i class="fas fa-check-circle"></i> Your Video is Ready!</h3>
+      <video controls src="rr.mp4"></video>
+      <button class="send-btn" style="background: var(--highlight-color); margin-top: 20px;"><i class="fas fa-download"></i> Download Video</button>
+    </div>
+  </div>
+
+  <script>
     const timeChips = document.querySelectorAll('#time-options .chip');
     const resChips = document.querySelectorAll('#res-options .chip');
+    const themeCards = document.querySelectorAll('#theme-options .theme-card');
+    const musicOptions = document.querySelectorAll('#music-options button');
     const desc = document.getElementById('desc');
     const sendBtn = document.getElementById('sendBtn');
+    const processingDiv = document.getElementById('processing');
+    const videoSection = document.getElementById('videoSection');
+    const popup = document.getElementById('popup');
 
     let selectedTime = '';
     let selectedRes = '';
+    let selectedTheme = 'minimalist'; // Default selected theme
+    let selectedMusic = 'ambient'; // Default selected music
 
-    timeChips.forEach(chip => {
-      chip.addEventListener('click', () => {
-        if (chip.classList.contains('disabled')) return showPopup();
-        timeChips.forEach(c => c.classList.remove('selected'));
-        chip.classList.add('selected');
-        selectedTime = chip.dataset.value;
-        validateInputs();
-      });
-    });
+    // Initial validation
+    validateInputs();
 
-    resChips.forEach(chip => {
-      chip.addEventListener('click', () => {
-        if (chip.classList.contains('disabled')) return showPopup();
-        resChips.forEach(c => c.classList.remove('selected'));
-        chip.classList.add('selected');
-        selectedRes = chip.dataset.value;
-        validateInputs();
-      });
-    });
+    function setupChipListeners(chips, type, defaultValue = '') {
+        chips.forEach(chip => {
+            if (chip.classList.contains('selected')) {
+                if (type === 'time') selectedTime = chip.dataset.value;
+                if (type === 'res') selectedRes = chip.dataset.value;
+                if (type === 'theme') selectedTheme = chip.dataset.value;
+                if (type === 'music') selectedMusic = chip.dataset.value;
+            }
+
+            chip.addEventListener('click', () => {
+                if (chip.classList.contains('disabled')) return showPopup();
+
+                chips.forEach(c => c.classList.remove('selected'));
+                chip.classList.add('selected');
+
+                if (type === 'time') selectedTime = chip.dataset.value;
+                if (type === 'res') selectedRes = chip.dataset.value;
+                if (type === 'theme') selectedTheme = chip.dataset.value;
+                if (type === 'music') selectedMusic = chip.dataset.value;
+                
+                validateInputs();
+            });
+        });
+    }
+
+    setupChipListeners(timeChips, 'time');
+    setupChipListeners(resChips, 'res');
+    setupChipListeners(themeCards, 'theme');
+    setupChipListeners(musicOptions, 'music');
+
 
     desc.addEventListener('input', validateInputs);
 
     function validateInputs() {
-      if (desc.value.trim() && selectedTime && selectedRes) {
-        sendBtn.style.display = 'block';
+      if (desc.value.trim() && selectedTime && selectedRes && selectedTheme && selectedMusic) {
+        sendBtn.disabled = false;
       } else {
-        sendBtn.style.display = 'none';
+        sendBtn.disabled = true;
       }
     }
 
     function showPopup() {
-      document.getElementById('popup').style.display = 'block';
+      popup.style.display = 'block';
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 5000); // Popup disappears after 5 seconds
     }
 
     function closePopup() {
-      document.getElementById('popup').style.display = 'none';
+      popup.style.display = 'none';
     }
 
     sendBtn.addEventListener('click', () => {
       sendBtn.style.display = 'none';
-      document.getElementById('processing').style.display = 'block';
-      setTimeout(() => {
-        document.getElementById('processing').style.display = 'none';
-        document.getElementById('videoSection').style.display = 'block';
-      }, 240000); // 4 minutes
+      videoSection.style.display = 'none';
+      processingDiv.style.display = 'block';
+
+      const stages = [
+        document.getElementById('stage1'),
+        document.getElementById('stage2'),
+        document.getElementById('stage3'),
+        document.getElementById('stage4')
+      ];
+
+      stages.forEach(stage => stage.classList.remove('active', 'completed'));
+
+      let currentStageIndex = 0;
+      const totalTime = 4 * 60 * 1000; // 4 minutes in milliseconds (adjust as needed for demo)
+      const timePerStage = totalTime / stages.length;
+
+      function processStage(index) {
+        if (index >= stages.length) {
+          processingDiv.style.display = 'none';
+          videoSection.style.display = 'block';
+          return;
+        }
+
+        const currentStage = stages[index];
+        currentStage.classList.add('active');
+        // Add spin animation for active icon based on its current class
+        const icon = currentStage.querySelector('i');
+        if (index === 0) icon.classList.add('fa-lightbulb'); // Example, replace with specific icons
+        if (index === 1) icon.classList.add('fa-cube');
+        if (index === 2) icon.classList.add('fa-headphones');
+        if (index === 3) icon.classList.add('fa-video');
+
+
+        setTimeout(() => {
+          currentStage.classList.remove('active');
+          currentStage.classList.add('completed');
+          // Remove specific icon class and add checkmark
+          icon.classList.remove('fa-lightbulb', 'fa-cube', 'fa-headphones', 'fa-video');
+          icon.classList.add('fa-check-circle');
+
+          processStage(index + 1);
+        }, timePerStage);
+      }
+
+      processStage(currentStageIndex);
     });
-  </script></body>
+  </script>
+</body>
 </html>
